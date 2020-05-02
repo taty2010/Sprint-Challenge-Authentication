@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const Secrets = require('../config/secrets');
 const Users = require('../users/userModel');
 
-router.post('/register', (req, res) => {
+router.post('/register', error, (req, res) => {
   // implement registration
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
@@ -16,11 +16,12 @@ router.post('/register', (req, res) => {
       res.status(200).json({ created_user: saved, token:token });
     })
     .catch( err => {
-      res.status(500).json(err)
+      res.status(500).json({message: 'Unable to register user'})
     });
+
 });
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, error) => {
   // implement login
   let { username, password } = req.body;
 
@@ -54,6 +55,13 @@ function gentoken(user) {
 
   const token = jwt.sign(payload, Secrets.jwtSecret, options)
   return token
+}
+
+async function error(req, res, next) {
+  // do your magic!
+  res
+  .status(500)
+  .json({ message: 'Could not register, please enter valid information' });
 }
 
 module.exports = router;
