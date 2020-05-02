@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const Secrets = require('../config/secrets');
 const Users = require('../users/userModel');
+
 router.post('/register', (req, res) => {
   // implement registration
   let user = req.body;
@@ -16,7 +17,7 @@ router.post('/register', (req, res) => {
     })
     .catch( err => {
       res.status(500).json(err)
-    })
+    });
 });
 
 router.post('/login', (req, res) => {
