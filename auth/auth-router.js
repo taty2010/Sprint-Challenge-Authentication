@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const Secrets = require('../config/secrets');
 const Users = require('../users/userModel');
 
-router.post('/register', error, (req, res) => {
+router.post('/register',(req, res) => {
   // implement registration
   let user = req.body;
   const hash = bcrypt.hashSync(user.password, 10);
@@ -57,11 +57,6 @@ function gentoken(user) {
   return token
 }
 
-async function error(req, res, next) {
-  // do your magic!
-  res
-  .status(500)
-  .json({ message: 'Could not register, please enter valid information' });
-}
+
 
 module.exports = router;
